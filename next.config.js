@@ -5,6 +5,13 @@
 await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  experimental: {
+    serverComponentsExternalPackages: [
+      "@zenstackhq/runtime",
+      "@zenstackhq/server",
+    ],
+  },
+};
 
 export default config;

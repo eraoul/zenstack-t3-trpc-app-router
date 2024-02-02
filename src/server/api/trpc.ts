@@ -10,7 +10,10 @@ import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { db } from "~/server/db";
+import { db as prisma } from "~/server/db";
+
+import { enhance } from "@zenstackhq/runtime";
+import { currentUser } from "@clerk/nextjs";
 
 /**
  * 1. CONTEXT
@@ -25,8 +28,15 @@ import { db } from "~/server/db";
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
+  const user = await currentUser();
+  const uid = user?.id;
+  const enhancedPrisma = enhance(prisma, {
+    user: uid ? { id: uid } : undefined,
+  });
+
   return {
-    db,
+    rawPrisma: prisma,
+    prisma: enhancedPrisma,
     ...opts,
   };
 };
