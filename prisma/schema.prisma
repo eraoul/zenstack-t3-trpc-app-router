@@ -12,6 +12,7 @@ generator client {
     provider = "prisma-client-js"
 }
 
+/// @@allow('all', true)
 model Post {
     id Int @id() @default(autoincrement())
     name String

@@ -16,6 +16,7 @@ model Post {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    @@allow('all', true)        // add access to everyone for simplicity.
     @@index([name])
 }
 
